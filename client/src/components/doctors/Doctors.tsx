@@ -4,6 +4,7 @@ import DoctorCard, { DoctorProps } from "../cards/DoctorCard";
 import DoctorModal from "./DoctorModal";
 import { getDoctors } from "../../services/appApi";
 import { PuffLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
 
 type Doctors = {
     role: string;
@@ -23,6 +24,7 @@ const Doctors: React.FC<Doctors> = ({ role }) => {
     const [doctors, setDoctors] = useState<DoctorProps[]>([]);
     const [filteredDoctors, setFilteredDoctors] = useState<DoctorProps[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
+    const navigate = useNavigate()
 
     const fetchDoctors = async () => {
         setLoading(true);
@@ -40,7 +42,7 @@ const Doctors: React.FC<Doctors> = ({ role }) => {
         if (doctors.length > 0) {
             setQualifications(getQualifications(doctors));
             setSpecializations(getSpecializations(doctors));
-            setFilteredDoctors(doctors); 
+            setFilteredDoctors(doctors);
         }
     }, [doctors]);
 
@@ -71,11 +73,11 @@ const Doctors: React.FC<Doctors> = ({ role }) => {
             doctor?.specialization?.includes(specialization)
         );
         setFilteredDoctors(filtered);
-        setIsOpenSpecialization(false); 
+        setIsOpenSpecialization(false);
     };
 
     const handleClearFilter = () => {
-        setFilteredDoctors(doctors); 
+        setFilteredDoctors(doctors);
         setIsOpenSpecialization(false);
         setOpenQualification(false);
     };
@@ -83,6 +85,11 @@ const Doctors: React.FC<Doctors> = ({ role }) => {
     const handleModal = (bool: boolean) => {
         setAddDoctor(bool);
     };
+
+    const handleLogout = ()=>{
+        localStorage.clear()
+        navigate("/admin/login")
+    }
 
     if (loading) {
         return (
@@ -95,102 +102,114 @@ const Doctors: React.FC<Doctors> = ({ role }) => {
     }
 
     return (
-        <div className="bg-blue-50 w-[100vw]">
-            <div className="bg-blue-50 flex items-center justify-evenly">
-                <div className="flex flex-col lg:flex-row p-5 pt-10 justify-center lg:justify-between items-center text-center space-y-4 lg:space-y-0 lg:space-x-4">
-                    {role === "user" ? (
-                        <h1 className="text-3xl font-semibold text-gray-800">
-                            Expert Health Care Professionals Just a Click Away
-                        </h1>
-                    ) : (
-                        <h1 className="text-3xl font-semibold text-gray-800">
-                            Doctors List
-                        </h1>
-                    )}
-                </div>
-                <div className="float-right mt-3">
-                    <div>
-                        <button
-                            onClick={toggleDropdown}
-                            className="bg-purple-500 text-white px-4 py-2 mx-5 rounded hover:bg-purple-600"
-                        >
-                            Specialization
-                        </button>
-                        {isOpenSpecialization && (
-                            <div className="absolute mt-2 w-48 bg-white border border-gray-200 rounded shadow-md z-10">
-                                <ul className="py-1">
-                                    {specializations.map(item => (
-                                        <li
-                                            key={item}
-                                            onClick={() => handleSpecializationFilter(item)}
-                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                                        >
-                                            {item}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
-                        <button
-                            onClick={toggleDroptwo}
-                            className="bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-600"
-                        >
-                            Qualification
-                        </button>
-                        {isOpenQualification && (
-                            <div className="absolute ml-40 mt-2 w-48 bg-white border border-gray-200 rounded shadow-md z-10">
-                                <ul className="py-1">
-                                    {qualifications.map(item => (
-                                        <li
-                                            key={item}
-                                            onClick={() => handleQualificationFilter(item)}
-                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-                                        >
-                                            {item}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
-                        <button
-                            onClick={handleClearFilter}
-                            className="  py-2 px-4 mx-4 rounded hover:bg-slate-200"
-                        >
-                            Clear Filter
-                        </button>
-                        {role === "admin" && (
-                            <button
-                                onClick={() => setAddDoctor(true)}
-                                className="bg-purple-500 text-white py-2 px-4 mx-4 rounded hover:bg-purple-600"
-                            >
-                                Add Doctor
-                            </button>
-                        )}
-                    </div>
-                </div>
+        <div className="bg-blue-50 w-screen min-h-screen flex flex-col items-center">
+        <div className="w-full max-w-7xl px-4">
+          <div className="flex flex-col lg:flex-row p-4 items-center justify-between">
+            <div className="w-full lg:w-auto mb-4 lg:mb-0 text-center">
+              <h1 className="text-2xl lg:text-3xl font-semibold text-gray-800">
+                {role === "user" ? "Expert Health Care Professionals Just a Click Away" : "Doctors List"}
+              </h1>
             </div>
-            <div className="min-h-screen flex bg-blue-50 w-[100vw] justify-center mt-5">
-                <div className="grid grid-cols-4 gap-6 p-8 bg-white">
-                    {filteredDoctors && filteredDoctors.length > 0 ? (
-                        filteredDoctors.map((doctor: DoctorProps) => (
-                            <DoctorCard
-                                key={doctor._id}
-                                name={doctor.name}
-                                age={doctor.age}
-                                qualification={doctor.qualification}
-                                specialization={doctor.specialization}
-                                _id={doctor._id}
-                            />
-                        ))
-                    ) : (
-                        <p className="text-gray-700 text-center col-span-4">
-                            No doctors available.
-                        </p>
-                    )}
-                </div>
+            
+            <div className="flex flex-wrap gap-2 justify-center">
+              <div className="relative">
+                <button
+                  onClick={toggleDropdown}
+                  className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600"
+                >
+                  Specialization
+                </button>
+                {isOpenSpecialization && (
+                  <div className="absolute mt-2 w-48 bg-white border border-gray-200 rounded shadow-md z-10">
+                    <ul className="py-1">
+                      {specializations.map(item => (
+                        <li
+                          key={item}
+                          onClick={() => handleSpecializationFilter(item)}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                        >
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+  
+              <div className="relative">
+                <button
+                  onClick={toggleDroptwo}
+                  className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600"
+                >
+                  Qualification
+                </button>
+                {isOpenQualification && (
+                  <div className="absolute mt-2 w-48 bg-white border border-gray-200 rounded shadow-md z-10">
+                    <ul className="py-1">
+                      {qualifications.map(item => (
+                        <li
+                          key={item}
+                          onClick={() => handleQualificationFilter(item)}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                        >
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+  
+              <button
+                onClick={handleClearFilter}
+                className="px-4 py-2 rounded hover:bg-slate-200"
+              >
+                Clear Filter
+              </button>
+  
+              {role === "admin" && (
+                <>
+                  <button
+                    onClick={() => setAddDoctor(true)}
+                    className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600"
+                  >
+                    Add Doctor
+                  </button>
+                  <button
+                    onClick={handleLogout}
+                    className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600"
+                  >
+                    Logout
+                  </button>
+                </>
+              )}
             </div>
-            {addDoctor && <DoctorModal handleModal={handleModal} />}
+          </div>
+  
+          <div className="p-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 bg-white p-4 rounded">
+              {filteredDoctors && filteredDoctors.length > 0 ? (
+                filteredDoctors.map((doctor) => (
+                  <DoctorCard
+                    key={doctor._id}
+                    name={doctor.name}
+                    age={doctor.age}
+                    qualification={doctor.qualification}
+                    specialization={doctor.specialization}
+                    _id={doctor._id}
+                  />
+                ))
+              ) : (
+                <p className="text-gray-700 text-center col-span-full">
+                  No doctors available.
+                </p>
+              )}
+            </div>
+          </div>
         </div>
+        {addDoctor && <DoctorModal handleModal={handleModal} />}
+      </div>
+
     );
 };
 

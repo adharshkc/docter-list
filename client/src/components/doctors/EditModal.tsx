@@ -59,7 +59,7 @@ const EditModal:React.FC<EditModalProp> = ({id,doctor, handleModal}) => {
     <div className="relative p-4 w-full max-w-md max-h-full">
       <div className="relative bg-slate-50 rounded-lg shadow">
         <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
-          <h3 className="text-xl font-semibold text-gray-900">Add a new Doctor</h3>
+          <h3 className="text-xl font-semibold text-gray-900">Edit Doctor</h3>
         </div>
         <div className="p-4 md:p-5">
           <div className="mb-5">

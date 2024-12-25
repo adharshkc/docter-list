@@ -6,17 +6,14 @@ import EditModal from "./EditModal";
 
 const SingleDoctor = () => {
     const [doctor, setDoctor] = useState<DoctorProps>()
-    const [loading, setLoading] = useState(false)
     const [editModal, setEditModal] = useState(false)
     const [deleteModal, setDeleteModal] = useState(false)
     const navigate = useNavigate()
     const { id } = useParams()
     const token = localStorage.getItem('token')
     const fetchDoctor = async () => {
-        setLoading(true)
         try {
             const response = await getSingleDoctor(id)
-            console.log(response)
             setDoctor(response.data.doctor)
         } catch (error) {
             console.log(error)
@@ -34,7 +31,6 @@ const SingleDoctor = () => {
     const handleDeleteModal = async ()=>{
         try {
             const response = await deleteDoctor(id)
-            console.log(response)
             navigate('/admin')
         } catch (error) {
             console.log(error)
@@ -44,7 +40,6 @@ const SingleDoctor = () => {
     return (
         <div className="min-h-screen bg-blue-50 flex justify-center p-4">
         <div className="bg-white w-full max-w-2xl shadow-lg rounded-lg overflow-hidden">
-          {/* Header Section */}
           <div className="p-4 sm:p-6">
             <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
               <img
@@ -79,8 +74,6 @@ const SingleDoctor = () => {
               )}
             </div>
           </div>
-  
-          {/* Details Section */}
           <div className="border-t border-gray-200">
             <dl className="divide-y divide-gray-200">
               <div className="px-4 py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-gray-50">
@@ -124,8 +117,6 @@ const SingleDoctor = () => {
             </dl>
           </div>
         </div>
-  
-        {/* Delete Modal */}
         {deleteModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-600 bg-opacity-50">
             <div className="relative w-full max-w-md bg-white rounded-lg shadow-lg">

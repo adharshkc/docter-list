@@ -45,7 +45,6 @@ const Login = () => {
 
     
     <div className="flex flex-1  flex-col w-fit px-6 lg:mt-44 lg:px-8">
-        {/* <div className="bg-white w-fit"> */}
 
     <div className="sm:mx-auto  sm:w-full sm:max-w-sm">
       <h2 className=" text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 ">
@@ -103,16 +102,7 @@ const Login = () => {
           </button>
         </div>
       </form>
-
-      {/* <p className="mt-10 text-center text-sm text-gray-500 dark:text-gray-400">
-        New Member?{' '}
-        <Link to={"/register"} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
-        Create a new Account
-        </Link>
-        </p> */}
     </div>
-    {/* </div> */}
-
   </div>
   </div>
         </>

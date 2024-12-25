@@ -11,7 +11,7 @@ const doctorSchema = new mongoose.Schema({
   },
   specialization: String,
   qualification: String,
-  Mobile: String,
+  mobile: String,
   registerNumber: String,
 });
 

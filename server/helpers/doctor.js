@@ -18,6 +18,7 @@ const addNewDoctor = async (
   register
 ) => {
   try {
+    console.log(register)
     const newDoctor = await doctor.create({
       name: name,
       age: age,
@@ -34,7 +35,7 @@ const addNewDoctor = async (
 
 const findOneDoctor = async (id) => {
   try {
-    const result = await doctor.findOne(id);
+    const result = await doctor.findOne({_id:id});
     return result;
   } catch (error) {
     console.log(error);

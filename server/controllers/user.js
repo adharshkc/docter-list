@@ -1,4 +1,4 @@
-const { getAllDoctors } = require("../helpers/doctor")
+const { getAllDoctors, findOneDoctor } = require("../helpers/doctor")
 
 
 

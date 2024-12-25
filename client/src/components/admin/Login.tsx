@@ -1,4 +1,4 @@
-import {  useState } from "react"
+import {  useEffect, useState } from "react"
 import toast, { Toaster } from "react-hot-toast"
 import { loginUser } from "../../services/appApi"
 import { useNavigate } from "react-router-dom"
@@ -8,7 +8,13 @@ const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
-
+    const token = localStorage.getItem("token")
+    useEffect(()=>{
+      if(token){
+        navigate("/")
+      }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleLogin = async (e: any)=>{
         e.preventDefault()

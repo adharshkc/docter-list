@@ -7,7 +7,7 @@ const UserRoute = () => {
   return (
     <Routes>
         <Route path="/" element={<UserPage/>}/>
-        <Route path="/doctor/" element={<DoctorDetailsPage/>}/>
+        <Route path="/doctor/:id" element={<DoctorDetailsPage/>}/>
     </Routes>
   )
 }

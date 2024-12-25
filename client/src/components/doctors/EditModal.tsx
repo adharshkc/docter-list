@@ -1,54 +1,55 @@
-import { useState } from "react"
-import { addDoctor } from "../../services/appApi";
+import { useState } from "react";
+import { editDoctor } from "../../services/appApi";
+import { DoctorProps } from "../cards/DoctorCard";
 
-type DoctorModal ={
+type EditModalProp={
+    id:string|undefined;
+    doctor:DoctorProps|undefined
     handleModal:(bool:boolean)=>void
 }
 
-const DoctorModal:React.FC<DoctorModal> = ({handleModal}) => {
-
+const EditModal:React.FC<EditModalProp> = ({id,doctor, handleModal}) => {
      const [doctorData, setDoctorData] = useState({
-    name: "",
-    age: "",
-    specialization: "",
-    qualification: "",
-    mobile: "",
-    registerNumber: "",
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setDoctorData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleAddDoctor = async () => {
-
-    if (
-      !doctorData.name ||
-      !doctorData.age ||
-      !doctorData.specialization ||
-      !doctorData.qualification ||
-      !doctorData.mobile ||
-      !doctorData.registerNumber
-    ) {
-      alert("Please fill in all fields");
-      return;
+        name: doctor?.name,
+        age: doctor?.age,
+        specialization: doctor?.specialization,
+        qualification: doctor?.qualification,
+        mobile: doctor?.mobile,
+        registerNumber: doctor?.registerNumber,
+      });
+    
+      const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setDoctorData((prevData) => ({
+          ...prevData,
+          [name]: value,
+        }));
+      };
+    
+      const handleEdit = async () => {
+    
+        if (
+          !doctorData.name ||
+          !doctorData.age ||
+          !doctorData.specialization ||
+          !doctorData.qualification ||
+          !doctorData.mobile ||
+          !doctorData.registerNumber
+        ) {
+          alert("Please fill in all fields");
+          return;
+        }
+    
+        try {
+            const response = await editDoctor(id, doctorData)
+            console.log(response)
+              handleModal(false);
+              alert("Doctor updated successfully");
+        } catch (error) {
+            console.log(error)
+            alert("Failed to update doctor");
+        }
     }
-
-    try {
-        const response = await addDoctor(doctorData)
-        console.log(response)
-          handleModal(false);
-          alert("Doctor added successfully");
-    } catch (error) {
-        console.log(error)
-        alert("Failed to add doctor");
-    }
-}
-
   return (
     <div
     id="authentication-modal"
@@ -163,9 +164,9 @@ const DoctorModal:React.FC<DoctorModal> = ({handleModal}) => {
             <button
               type="button"
               className="text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              onClick={handleAddDoctor}
+              onClick={handleEdit}
             >
-              Add Doctor
+              Update Doctor
             </button>
           </div>
         </div>
@@ -175,4 +176,4 @@ const DoctorModal:React.FC<DoctorModal> = ({handleModal}) => {
   )
 }
 
-export default DoctorModal
+export default EditModal

@@ -18,7 +18,6 @@ const addNewDoctor = async (
   register
 ) => {
   try {
-    console.log(register)
     const newDoctor = await doctor.create({
       name: name,
       age: age,

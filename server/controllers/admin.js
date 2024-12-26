@@ -19,9 +19,8 @@ const adminLogin = (req, res)=>{
 const addDoctor = async(req, res)=>{
     const {doctorData} = req.body
     
-    console.log(doctorData)
     const {name, age, specialization, qualification, mobile, registerNumber} = doctorData
-    console.log(name)
+ 
     const response = await addNewDoctor(name, age, specialization, qualification, mobile, registerNumber)
     return res.status(200).json({doctors: response})
 
@@ -31,7 +30,6 @@ const editDoctor = async(req, res)=>{
     const {doctorData} = req.body
     const id = req.params.id
     
-    console.log(doctorData)
     const {name, age, specialization, qualification, mobile, registerNumber} = doctorData
     const response = await updateDoctor(id,name, age, specialization, qualification, mobile, registerNumber)
     return res.status(200).json({doctors: response})

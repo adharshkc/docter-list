@@ -3,18 +3,22 @@ import { DoctorProps } from "../cards/DoctorCard";
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteDoctor, getSingleDoctor } from "../../services/appApi";
 import EditModal from "./EditModal";
+import { PuffLoader } from "react-spinners";
 
 const SingleDoctor = () => {
     const [doctor, setDoctor] = useState<DoctorProps>()
     const [editModal, setEditModal] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [deleteModal, setDeleteModal] = useState(false)
     const navigate = useNavigate()
     const { id } = useParams()
     const token = localStorage.getItem('token')
     const fetchDoctor = async () => {
+      setLoading(true)
         try {
             const response = await getSingleDoctor(id)
             setDoctor(response.data.doctor)
+            setLoading(false)
         } catch (error) {
             console.log(error)
         }
@@ -29,12 +33,21 @@ const SingleDoctor = () => {
     }
 
     const handleDeleteModal = async ()=>{
+
         try {
-            const response = await deleteDoctor(id)
+            await deleteDoctor(id)
             navigate('/admin')
         } catch (error) {
             console.log(error)
         }
+    }
+
+    if(loading){
+      <div className="min-h-screen p-8">
+                <div className="max-w-4xl mx-auto flex justify-center">
+                    <PuffLoader />
+                </div>
+            </div>
     }
 
     return (

@@ -93,7 +93,7 @@ const Doctors: React.FC<Doctors> = ({ role }) => {
 
     if (loading) {
         return (
-            <div className="min-h-screen p-8">
+            <div className="min-h-screen p-8 flex justify-center">
                 <div className="max-w-4xl mx-auto flex justify-center">
                     <PuffLoader />
                 </div>

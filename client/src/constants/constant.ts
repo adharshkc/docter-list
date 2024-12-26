@@ -1,1 +1,1 @@
-export const server_url = 'http://localhost:3000/api/v1/'
+export const server_url = 'https://doctor-listing-backend.onrender.com/api/v1/'
